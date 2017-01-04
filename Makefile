@@ -11,16 +11,13 @@ CFLAGS = $(OPT) $(WARN)
 CC	= gcc
 CFLAGS= $(OPT) $(PIC) $(XOPTS)
 
-SOFLAGS = -shared 
+SOFLAGS = -shared -fPIC
 XLIBS	= 
 
 
 $(TARGET): $(LIBOBJS)
 	$(CC) -o $@ $(SOFLAGS) $(LIBOBJS) $(XLIBS)
 
-
-main: $(OBJECT)
-	$(CC) $(CFLAGS) -o main $(OBJECT) -L. -lmatmult
 
 clean:
 	@/bin/rm -f core core.* $(LIBOBJS)
