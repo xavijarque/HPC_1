@@ -22,11 +22,11 @@ void matmult_mkn(int m,int n,int k,double **A,double **B,double **C){
   printf("matmult_mkn: before first loop\n");
   for (i = 0; i < m; i++) {
     printf("i=%i\n", i);
-    for (j = 0; j < k; j++) {
+    for (j = 0; j < n; j++) {
       printf("j=%i\n", j);
       C[i][l]=0;
       printf("hola\n");
-      for (l = 0; l < n; l++) {
+      for (l = 0; l < k; l++) {
         printf("l=%i\n", l);
 	C[i][l] = C[i][l] + A[i][j]*B[j][l];
       }
