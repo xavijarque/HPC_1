@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <time.h>
 
+
+#define MIN(a,b) ((a) < (b) ? a : b)
+
 //QUESTION2
 //OP1
 void matmult_mnk(int m,int n,int k,double **A,double **B,double **C){
@@ -9,8 +12,13 @@ void matmult_mnk(int m,int n,int k,double **A,double **B,double **C){
   for (i = 0; i < m; i++) {
     for (j = 0; j < n; j++) {
       C[i][j]=0;
+    }
+  }
+
+  for (i = 0; i < m; i++) {
+    for (j = 0; j < n; j++) {
       for (l = 0; l < k; l++) {
-	C[i][j] = C[i][j] + A[i][l]*B[l][j];
+	C[i][j] += A[i][l]*B[l][j];
       }
     }
   }
@@ -19,16 +27,16 @@ void matmult_mnk(int m,int n,int k,double **A,double **B,double **C){
 void matmult_mkn(int m,int n,int k,double **A,double **B,double **C){
   // Coding without blocking, there are different combinations to perform the loop.
   int i, j, l;
-  printf("matmult_mkn: before first loop\n");
   for (i = 0; i < m; i++) {
-    printf("i=%i\n", i);
     for (j = 0; j < n; j++) {
-      printf("j=%i\n", j);
-      C[i][l]=0;
-      printf("hola\n");
-      for (l = 0; l < k; l++) {
-        printf("l=%i\n", l);
-	C[i][l] = C[i][l] + A[i][j]*B[j][l];
+      C[i][j]=0;
+    }
+  }
+
+  for (i = 0; i < m; i++) {
+    for (l = 0; l < k; l++) {
+      for (j = 0; j < n; j++) {
+        C[i][j] = C[i][j] + A[i][l]*B[l][j];
       }
     }
   }
@@ -38,11 +46,16 @@ void matmult_mkn(int m,int n,int k,double **A,double **B,double **C){
 void matmult_nmk(int m,int n,int k,double **A,double **B,double **C){
   // Coding without blocking, there are different combinations to perform the loop.
   int i, j, l;
-  for (i = 0; i < n; i++) {
-    for (j = 0; j < m; j++) {
-      C[j][i]=0;
+  for (i = 0; i < m; i++) {
+    for (j = 0; j < n; j++) {
+      C[i][j]=0;
+    }
+  }
+
+  for (j = 0; j < n; j++) {
+    for (i = 0; i < m; i++) {
       for (l = 0; l < k; l++) {
-	C[j][i] = C[j][i] + A[j][l]*B[l][i];
+        C[i][j] = C[i][j] + A[i][l]*B[l][j];
       }
     }
   }
@@ -52,11 +65,16 @@ void matmult_nmk(int m,int n,int k,double **A,double **B,double **C){
 void matmult_nkm(int m,int n,int k,double **A,double **B,double **C){
   // Coding without blocking, there are different combinations to perform the loop.
   int i, j, l;
-  for (i = 0; i < n; i++) {
-    for (j = 0; j < k; j++) {
-      C[l][i]=0;
-      for (l = 0; l < m; l++) {
-	C[l][i] = C[l][i] + A[l][j]*B[j][i];
+  for (i = 0; i < m; i++) {
+    for (j = 0; j < n; j++) {
+      C[i][j]=0;
+    }
+  }
+
+  for (j = 0; j < n; j++) {
+    for (l = 0; l < k; l++) {
+      for (i = 0; i < m; i++) {
+        C[i][j] = C[i][j] + A[i][l]*B[l][j];
       }
     }
   }
@@ -66,42 +84,71 @@ void matmult_nkm(int m,int n,int k,double **A,double **B,double **C){
 void matmult_kmn(int m,int n,int k,double **A,double **B,double **C){
   // Coding without blocking, there are different combinations to perform the loop.
   int i, j, l;
-  for (i = 0; i < k; i++) {
-    for (j = 0; j < m; j++) {
-      C[j][l]=0;
-      for (l = 0; l < n; l++) {
-	C[j][l] = C[j][l] + A[j][i]*B[i][l];
-      }
+  for (i = 0; i < m; i++) {
+    for (j = 0; j < n; j++) {
+      C[i][j]=0;
     }
   }
+  
+  for (l = 0; l < k; l++) {
+    for (i = 0; i < m; i++) {
+      for (j = 0; j < n; j++) {
+        C[i][j] = C[i][j] + A[i][l]*B[l][j];
+      }
+    }
+  } 
 }
 
 //OP6
 void matmult_knm(int m,int n,int k,double **A,double **B,double **C){
   // Coding without blocking, there are different combinations to perform the loop.
   int i, j, l;
-  for (i = 0; i < k; i++) {
+  for (i = 0; i < m; i++) {
     for (j = 0; j < n; j++) {
-      C[l][j]=0;
-      for (l = 0; l < m; l++) {
-	C[l][j] = C[l][j] + A[l][i]*B[i][j];
-      }
+      C[i][j]=0;
     }
   }
+  
+  for (l = 0; l < k; l++) {
+    for (j = 0; j < n; j++) {
+      for (i = 0; i < m; i++) {    
+        C[i][j] = C[i][j] + A[i][l]*B[l][j];     
+      }
+    }
+  } 
 }
 
 void matmult_nat(int m,int n,int k,double **A,double **B,double **C){
   // Coding without blocking, there are different combinations to perform the loop.
-  /*
-  int i, j, l;
+  //printf("matmult_nat: m=%i, n=%i, k=%i\n", m, n, k);
+  matmult_mnk(m,n,k,A,B,C);
+}
+
+void matmult_blk(int m,int n,int k, double **A,double **B,double **C, int bs){
+  //printf("matmult_blk: m=%i, n=%i, k=%i\n, bs=%i", m, n, k, bs);
+  //order is actually int1, int3, int2
+  int i1, j1, l1, i2, j2, l2, i, j;
+  
   for (i = 0; i < m; i++) {
     for (j = 0; j < n; j++) {
       C[i][j]=0;
-      for (l = 0; l < k; l++) {
-	C[i][j] = C[i][j] + A[i][l]*B[l][j];
+    }
+  }
+
+  for (i1= 0;i1<m; i1+=bs) { 
+    for (j1 = 0; j1 < n; j1+=bs) {   
+      for (l1 = 0; l1 < k; l1+=bs) {
+	int test1 = MIN(m-i1, bs);
+	int test2 = MIN (n- j1, bs);
+	int test3 = MIN(k-l1, bs);
+        for(i2 = 0; i2 < test1; i2++) { 
+          for(j2 = 0; j2 < test2; j2++) {     
+            for(l2 = 0; l2 < test3; l2++) {
+	      C[i1+i2][j1+j2] += A[i1+i2][l1+l2]*B[l1+l2][j1+j2];
+            }
+          }  
+        }
       }
     }
-    }*/
-  printf("before running function\n");
-  matmult_mkn(m,n,k,A,B,C);
+  }
 }

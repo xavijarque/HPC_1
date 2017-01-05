@@ -1,9 +1,9 @@
 TARGET	= libmatmult.so
 LIBSRCS	= 
-LIBOBJS	= Question1.c
+LIBOBJS	= Question1.o
 OBJECT = main.o
 WARN = -Wall
-OPT	= -g 
+OPT	= -g -O2 
 PIC	= -fPIC
 CFLAGS = $(OPT) $(WARN)
 
@@ -22,4 +22,4 @@ $(TARGET): $(LIBOBJS)
 clean:
 	@/bin/rm -f core core.* $(LIBOBJS)
 
-main.o : main.c 
+Question1.o : Question1.c 
