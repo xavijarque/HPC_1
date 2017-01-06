@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <time.h>
-
+#include <time.h>
+#include <cblas.h>
 
 #define MIN(a,b) ((a) < (b) ? a : b)
 
@@ -124,6 +125,9 @@ void matmult_nat(int m,int n,int k,double **A,double **B,double **C){
   matmult_mnk(m,n,k,A,B,C);
 }
 
+void matmult_lib(int m, int n, int k, double **A, double **B, double **C) {
+	cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, m, n, k, 1, *A, k, *B, n, 0, *C, n);
+}
 void matmult_blk(int m,int n,int k, double **A,double **B,double **C, int bs){
   //printf("matmult_blk: m=%i, n=%i, k=%i\n, bs=%i", m, n, k, bs);
   //order is actually int1, int3, int2
