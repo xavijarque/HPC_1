@@ -3,7 +3,7 @@ LIBSRCS	=
 LIBOBJS	= Question1.o
 OBJECT = main.o
 WARN = -Wall
-OPT	= -g -O2 
+OPT	= -g -O3
 PIC	= -fPIC
 CFLAGS = $(OPT) $(WARN)
 
